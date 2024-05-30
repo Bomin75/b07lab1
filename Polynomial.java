@@ -41,8 +41,16 @@ public class Polynomial {
         for (int i = 0; i < terms.length; i++) {
             if (terms[i].contains("x")) {
                 String[] nums = terms[i].split("x");
-                this.coef[i] = Double.parseDouble(signs[j] + nums[0]);
-                this.exp[i] = Integer.parseInt(nums[1]);
+                if (nums[0].equals("")) {
+                    this.coef[i] = 1;
+                } else {
+                    this.coef[i] = Double.parseDouble(signs[j] + nums[0]);
+                }
+                if (nums[0].equals("")) {
+                    this.coef[i] = 1;
+                } else {
+                    this.exp[i] = Integer.parseInt(nums[1]);
+                }
             } else {
                 this.coef[i] = Double.parseDouble(signs[j] + terms[i]);
                 this.exp[i] = 0;
@@ -54,12 +62,20 @@ public class Polynomial {
     public void saveToFile(String fileName) throws IOException {
         String poly = "";
         String tmpCoef = "";
+        boolean isLeadingZero = true;
         for (int i = 0; i < coef.length; i++) {
-            if (coef[i] >= 0 && i > 0) {
+            if (coef[i] > 0 && !isLeadingZero) {
                 tmpCoef = "+";
             } else {
                 tmpCoef = "";
             }
+
+            if (coef[i] == 0) {
+                continue;
+            } else {
+                isLeadingZero = false;
+            }
+
             tmpCoef += Double.toString(coef[i]);
             if (exp[i] == 0) {
                 poly = poly + tmpCoef;

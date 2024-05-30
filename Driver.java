@@ -48,5 +48,14 @@ public class Driver {
         s.saveToFile("bomin.txt");
         result.saveToFile("result.txt");
         result2.saveToFile("result2.txt");
+
+        double[] testCoef = { 0, 1, 2, 3, 4 };
+        int[] testExp = { 4, 3, 2, 1, 0 };
+        Polynomial test = new Polynomial(testCoef, testExp);
+        test.saveToFile("bomin.txt");
+
+        Polynomial emptyPoly = new Polynomial();
+        emptyPoly.saveToFile("emptyPoly.txt");
+
     }
 }
