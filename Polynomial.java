@@ -26,36 +26,34 @@ public class Polynomial {
         Scanner sc = new Scanner(file);
         String poly = sc.nextLine();
         sc.close();
-        String[] terms = poly.split("[+-]");
-        String[] signs = poly.split("[0-9x]");
+        String[] terms = poly.split("(?=[\\+\\-])");
         this.coef = new double[terms.length];
         this.exp = new int[terms.length];
-        int j = signs.length - 1; // index for signs array
-        for (int i = terms.length - 1; i >= 1; i--) {
-            terms[i] = signs[j] + terms[i];
-            j--;
-        }
-        if (signs.length == terms.length) {
-            terms[0] = '-' + terms[0];
-        }
+        // for (int i = 0; i < terms.length; i++) {
+        // System.out.println(i + ": term " + terms[i]);
+        // }
         for (int i = 0; i < terms.length; i++) {
-            if (terms[i].contains("x")) {
+            if (terms[i].equals("x")) {
+                this.coef[i] = 1;
+                this.exp[i] = 1;
+            } else if (terms[i].contains("x")) {
                 String[] nums = terms[i].split("x");
-                if (nums[0].equals("")) {
+                if (nums[0].equals("+") || nums[0].equals("")) {
                     this.coef[i] = 1;
+                } else if (nums[0].equals("-")) {
+                    this.coef[i] = -1;
                 } else {
-                    this.coef[i] = Double.parseDouble(signs[j] + nums[0]);
+                    this.coef[i] = Double.parseDouble(nums[0]);
                 }
-                if (nums[0].equals("")) {
-                    this.coef[i] = 1;
+                if (nums.length == 1) {
+                    this.exp[i] = 1;
                 } else {
                     this.exp[i] = Integer.parseInt(nums[1]);
                 }
             } else {
-                this.coef[i] = Double.parseDouble(signs[j] + terms[i]);
+                this.coef[i] = Double.parseDouble(terms[i]);
                 this.exp[i] = 0;
             }
-            j++;
         }
     }
 
